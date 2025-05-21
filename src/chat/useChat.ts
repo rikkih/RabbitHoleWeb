@@ -4,8 +4,8 @@ import {
   createStompClient,
   disconnectStompClient,
   sendStompMessage,
-} from "../services/chatService";
-import type { Message } from "../types/chat";
+} from "./chatService";
+import type { Message } from "./chat";
 
 export function useChat() {
   const { getAccessTokenSilently, user } = useAuth0();

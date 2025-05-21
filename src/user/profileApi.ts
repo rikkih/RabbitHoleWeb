@@ -1,4 +1,4 @@
-import type { UserProfile } from "../models/UserProfile";
+import type { UserProfile } from "../user/UserProfile";
 
 export const fetchUserProfile = async (
   getToken: () => Promise<string>

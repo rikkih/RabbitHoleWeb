@@ -10,7 +10,7 @@ import {
   Avatar,
   Paper,
 } from "@mui/material";
-import { useChat } from "../hooks/useChat";
+import { useChat } from "./useChat";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function WebSocketPage() {

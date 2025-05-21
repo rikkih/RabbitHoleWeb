@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Container, Typography } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserProfile } from "../hooks/useUserProfile";
-import ProfileDisplay from "../components/ProfileDisplay";
+import { useUserProfile } from "../user/useUserProfile";
+import ProfileDisplay from "../user/ProfileDisplay";
 import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {

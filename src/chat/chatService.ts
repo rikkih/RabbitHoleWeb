@@ -1,5 +1,5 @@
 import { Client, type IFrame, type IMessage } from "@stomp/stompjs";
-import type { Message } from "../types/chat";
+import type { Message } from "./chat";
 
 let client: Client | null = null;
 

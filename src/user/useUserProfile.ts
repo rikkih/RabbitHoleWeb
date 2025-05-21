@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchUserProfile } from "../api/profileApi";
-import type { UserProfile } from "../models/UserProfile";
+import { fetchUserProfile } from "./profileApi";
+import type { UserProfile } from "../user/UserProfile";
 
 export const useUserProfile = (
   isAuthenticated: boolean,

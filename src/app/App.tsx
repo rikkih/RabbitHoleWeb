@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import WebSocketPage from "./pages/WebSocketPage";
+import Home from "../home/Home";
+import WebSocketPage from "../chat/WebSocketPage";
 
 const App: React.FC = () => {
   return (

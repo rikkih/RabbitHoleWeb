@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import type { UserProfile } from "../models/UserProfile";
+import type { UserProfile } from "./UserProfile";
 
 interface Props {
   profile: UserProfile | null;
