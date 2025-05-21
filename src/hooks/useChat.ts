@@ -27,15 +27,25 @@ export function useChat() {
   }, [getAccessTokenSilently]);
 
   const sendMessage = useCallback(
-    (message: string) => {
-      if (message.trim()) {
-        const payload: Message = {
-          from: user?.name || "Anonymous",
-          text: message.trim(),
-        };
+    (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
 
-        sendStompMessage("/api/chat", payload);
-      }
+      const name = user?.name || "Anonymous";
+      const avatarUrl =
+        user?.picture ||
+        `https://api.dicebear.com/7.x/personas/svg?seed=${encodeURIComponent(
+          name
+        )}`;
+
+      const payload: Message = {
+        from: name,
+        text: trimmed,
+        timestamp: new Date().toISOString(),
+        avatarUrl,
+      };
+
+      sendStompMessage("/api/chat", payload);
     },
     [user]
   );
