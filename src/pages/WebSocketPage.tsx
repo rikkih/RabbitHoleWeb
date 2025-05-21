@@ -1,59 +1,27 @@
-import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Client, type IMessage } from "@stomp/stompjs";
-import { Box, Button, TextField, Typography, List, ListItem } from "@mui/material";
-
-// Create and type the client
-let stompClient: Client | null = null;
+import { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import { useChat } from "../hooks/useChat";
 
 function WebSocketPage() {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { chatMessages, sendMessage } = useChat();
   const [message, setMessage] = useState("");
-  const [chatMessages, setChatMessages] = useState<string[]>([]);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const connectWebSocket = async () => {
-      const token = await getAccessTokenSilently();
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
 
-      stompClient = new Client({
-        brokerURL: `ws://localhost:8080/ws?token=${token}`,
-        reconnectDelay: 5000,
-        debug: (str) => {
-          console.log("STOMP debug:", str);
-        },
-        onConnect: () => {
-          stompClient?.subscribe("/topic/chat", (msg: IMessage) => {
-            const body = JSON.parse(msg.body);
-            setChatMessages((prev) => [...prev, `${body.from}: ${body.text}`]);
-          });
-        },
-        onStompError: (frame) => {
-          console.error("Broker error:", frame.headers["message"]);
-        },
-      });
-
-      stompClient.activate();
-    };
-
-    connectWebSocket();
-
-    return () => {
-      stompClient?.deactivate();
-    };
-  }, [getAccessTokenSilently]);
-
-  const sendMessage = () => {
-    if (stompClient?.connected && message.trim() !== "") {
-      const chatMsg = {
-        from: user?.name || "Anonymous",
-        text: message,
-      };
-      stompClient.publish({
-        destination: "/api/chat",
-        body: JSON.stringify(chatMsg),
-      });
-      setMessage("");
-    }
+  const handleSend = () => {
+    sendMessage(message);
+    setMessage("");
   };
 
   return (
@@ -64,18 +32,30 @@ function WebSocketPage() {
 
       <List sx={{ maxHeight: 300, overflow: "auto", mb: 2 }}>
         {chatMessages.map((msg, idx) => (
-          <ListItem key={idx}>{msg}</ListItem>
+          <ListItem key={idx} alignItems="flex-start">
+            <ListItemText
+              primary={<strong>{msg.from}</strong>}
+              secondary={msg.text}
+            />
+          </ListItem>
         ))}
+        <div ref={bottomRef} />
       </List>
 
       <Box sx={{ display: "flex", gap: 2 }}>
         <TextField
           fullWidth
-          label="Type a message"
+          label="Type a message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
         />
-        <Button variant="contained" onClick={sendMessage}>
+        <Button variant="contained" onClick={handleSend}>
           Send
         </Button>
       </Box>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchUserProfile } from "../api/ProfileApi";
+import { fetchUserProfile } from "../api/profileApi";
 import type { UserProfile } from "../models/UserProfile";
 
 export const useUserProfile = (
