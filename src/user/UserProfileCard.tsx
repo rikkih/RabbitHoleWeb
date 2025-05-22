@@ -71,7 +71,7 @@ const UserProfileCard: React.FC<Props> = ({ profile, onAvatarUploaded }) => {
         </Typography>
 
         <Avatar
-          src={profile.profileImageUrl || undefined}
+          src={profile.avatarUrl || undefined}
           sx={{ width: 100, height: 100, mb: 2 }}
         >
           {profile.displayName?.charAt(0) || "?"}

@@ -28,6 +28,9 @@ const Home: React.FC = () => {
     refreshProfile,
   } = useUserProfile(isAuthenticated, getAccessTokenSilently);
 
+  // TODO: Remove
+  console.log({ isLoading, profileLoading, isAuthenticated, user, profileError });
+
   const callApi = async () => {
     const token = await getAccessTokenSilently();
     const response = await fetch("http://localhost:8080/api/secure", {

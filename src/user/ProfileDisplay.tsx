@@ -88,7 +88,7 @@ const ProfileDisplay: React.FC<Props> = ({ profile, refreshProfile }) => {
 
       <Stack direction="row" spacing={2} alignItems="center">
         <Avatar
-          src={profile.profileImageUrl || undefined}
+          src={profile.avatarUrl || undefined}
           alt="Profile"
           sx={{ width: 100, height: 100 }}
         />
