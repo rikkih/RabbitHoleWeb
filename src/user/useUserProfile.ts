@@ -10,7 +10,10 @@ const useUserProfile = (
   const [error, setError] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated) {
+      setLoading(false); // prevent spinner hang
+      return;
+    }
 
     setLoading(true);
     setError(null);
