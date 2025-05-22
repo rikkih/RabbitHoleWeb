@@ -1,16 +1,21 @@
-import { Button, CircularProgress, Container, Typography } from "@mui/material";
+// Home.tsx
+import React from "react";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserProfile } from "../user/useUserProfile";
-import ProfileDisplay from "../user/ProfileDisplay";
 import { Link } from "react-router-dom";
+import useUserProfile from "../user/useUserProfile";
+import ProfileDisplay from "../user/ProfileDisplay";
 
 const Home: React.FC = () => {
   const {
-    // Auth state:
     isAuthenticated,
     isLoading,
     user,
-    // Auth methods:
     getAccessTokenSilently,
     loginWithRedirect,
     logout,
@@ -20,6 +25,7 @@ const Home: React.FC = () => {
     profile,
     loading: profileLoading,
     error: profileError,
+    refreshProfile,
   } = useUserProfile(isAuthenticated, getAccessTokenSilently);
 
   const callApi = async () => {
@@ -29,8 +35,7 @@ const Home: React.FC = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const text = await response.text();
-    console.log(text);
+    console.log(await response.text());
   };
 
   if (isLoading || profileLoading) {
@@ -55,14 +60,14 @@ const Home: React.FC = () => {
             <Typography color="error">Error: {profileError}</Typography>
           )}
 
-          <ProfileDisplay profile={profile} />
+          <ProfileDisplay profile={profile} refreshProfile={refreshProfile} />
 
           <Button
             variant="outlined"
             onClick={() =>
               logout({ logoutParams: { returnTo: window.location.origin } })
             }
-            style={{ marginTop: "1rem" }}
+            sx={{ mt: 2 }}
           >
             Log Out
           </Button>
@@ -70,7 +75,7 @@ const Home: React.FC = () => {
             variant="contained"
             color="primary"
             onClick={callApi}
-            style={{ marginLeft: "1rem" }}
+            sx={{ ml: 2 }}
           >
             Call Secure API
           </Button>
@@ -78,7 +83,7 @@ const Home: React.FC = () => {
             variant="contained"
             component={Link}
             to="/websocket"
-            style={{ marginLeft: "1rem" }}
+            sx={{ ml: 2 }}
           >
             Go to WebSocket Page
           </Button>

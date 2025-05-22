@@ -1,34 +1,42 @@
-import { useEffect, useState } from "react";
-import { fetchUserProfile } from "./profileApi";
-import type { UserProfile } from "../user/UserProfile";
+import { useEffect, useState, useCallback } from "react";
+import type { UserProfile } from "./UserProfile";
 
-export const useUserProfile = (
+const useUserProfile = (
   isAuthenticated: boolean,
-  getToken: () => Promise<string>
+  getAccessTokenSilently: () => Promise<string>
 ) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchProfile = useCallback(async () => {
     if (!isAuthenticated) return;
 
-    const loadProfile = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchUserProfile(getToken);
-        setProfile(data);
-      } catch (err) {
-        if (err instanceof Error) setError(err.message);
-        else if (typeof err === "string") setError(err);
-        else setError("Unknown error");
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    setError(null);
 
-    loadProfile();
-  }, [isAuthenticated, getToken]);
+    try {
+      const token = await getAccessTokenSilently();
+      const res = await fetch("http://localhost:8080/api/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Profile fetch failed");
 
-  return { profile, loading, error };
+      const data: UserProfile = await res.json();
+      setProfile(data);
+    } catch (e) {
+      console.error(e);
+      setError("Failed to load profile.");
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
+
+  return { profile, loading, error, refreshProfile: fetchProfile };
 };
+
+export default useUserProfile;
