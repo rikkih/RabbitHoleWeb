@@ -3,12 +3,14 @@ import Home from "../home/Home";
 import WebSocketPage from "../chat/WebSocketPage";
 import { AuthProvider } from "../auth/AuthProvider";
 import PrivateRoute from "../auth/PrivateRoute";
+import LoginPage from "../auth/Login";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/"
             element={

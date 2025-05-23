@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = () => loginWithRedirect();
   const logoutUser = () =>
-    logout({ logoutParams: { returnTo: window.location.origin } });
+    logout({ logoutParams: { returnTo: `${window.location.origin}/login` } });
   const getAccessToken = () => getAccessTokenSilently();
 
   return (
