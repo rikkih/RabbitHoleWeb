@@ -1,11 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
-import type { UserProfile } from "./UserProfile";
+import type { UserProfileDto } from "../types";
+import { useAuth } from "../../auth/AuthProvider";
 
-const useUserProfile = (
-  isAuthenticated: boolean,
-  getAccessTokenSilently: () => Promise<string>
-) => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+export function useUserProfile() {
+  const { getAccessToken, isAuthenticated } = useAuth();
+  const [profile, setProfile] = useState<UserProfileDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,13 +18,13 @@ const useUserProfile = (
     setError(null);
 
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessToken();
       const res = await fetch("http://localhost:8080/api/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Profile fetch failed");
 
-      const data: UserProfile = await res.json();
+      const data: UserProfileDto = await res.json();
       setProfile(data);
     } catch (e) {
       console.error(e);
@@ -33,13 +32,13 @@ const useUserProfile = (
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [isAuthenticated, getAccessToken]);
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
 
-  return { profile, loading, error, refreshProfile: fetchProfile };
-};
+  return { profile, loading, error };
+}
 
 export default useUserProfile;

@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useAuth } from "../auth/AuthProvider";
 import UserList from "../user/components/UserList";
+import UserProfilePanel from "../user/components/UserProfilePanel";
 
 const Home: React.FC = () => {
   const { user, logout } = useAuth();
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
       <Button variant="outlined" onClick={() => logout()} sx={{ mt: 2 }}>
         Log Out
       </Button>
+      <UserProfilePanel />
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
         User Directory
       </Typography>
