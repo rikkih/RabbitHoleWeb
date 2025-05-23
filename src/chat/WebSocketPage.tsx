@@ -10,6 +10,7 @@ import {
   Avatar,
   Paper,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useChat } from "./useChat";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -18,6 +19,8 @@ function WebSocketPage() {
   const { user } = useAuth0();
   const [message, setMessage] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,6 +52,14 @@ function WebSocketPage() {
         <Typography variant="h4" gutterBottom>
           Chat
         </Typography>
+
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/")}
+          sx={{ mb: 2 }}
+        >
+          Back to Home
+        </Button>
 
         <List
           sx={{
