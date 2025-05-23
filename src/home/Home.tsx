@@ -28,19 +28,6 @@ const Home: React.FC = () => {
     refreshProfile,
   } = useUserProfile(isAuthenticated, getAccessTokenSilently);
 
-  // TODO: Remove
-  console.log({ isLoading, profileLoading, isAuthenticated, user, profileError });
-
-  const callApi = async () => {
-    const token = await getAccessTokenSilently();
-    const response = await fetch("http://localhost:8080/api/secure", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(await response.text());
-  };
-
   if (isLoading || profileLoading) {
     return <CircularProgress />;
   }
@@ -73,14 +60,6 @@ const Home: React.FC = () => {
             sx={{ mt: 2 }}
           >
             Log Out
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={callApi}
-            sx={{ ml: 2 }}
-          >
-            Call Secure API
           </Button>
           <Button
             variant="contained"
