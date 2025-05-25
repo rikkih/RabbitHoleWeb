@@ -3,7 +3,7 @@ import type { UserProfileDto } from "../types";
 import { useAuth } from "../../auth/AuthProvider";
 
 export function useUserProfile() {
-  const { getAccessToken, isAuthenticated } = useAuth();
+  const { getAccessToken, isAuthenticated, user } = useAuth();
   const [profile, setProfile] = useState<UserProfileDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,8 +20,15 @@ export function useUserProfile() {
     try {
       const token = await getAccessToken();
       const res = await fetch("http://localhost:8080/api/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: user?.name,
+          email: user?.email,
+        }),
+        method: "PUT",
       });
       if (!res.ok) throw new Error("Profile fetch failed");
 

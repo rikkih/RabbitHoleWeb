@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Welcome to the Rabbit Hole
+        The Rabbit Hole
       </Typography>
       <Typography variant="body1">Welcome, {user?.name}</Typography>
       <Button variant="outlined" onClick={() => logout()} sx={{ mt: 2 }}>

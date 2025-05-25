@@ -20,15 +20,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     isAuthenticated,
     isLoading,
     user,
-    loginWithRedirect,
     logout,
     getAccessTokenSilently,
   } = useAuth0();
 
-  const login = () => loginWithRedirect();
+  const login = () => {
+    console.warn("login() called but no routing context is available");
+  };
   const logoutUser = () =>
     logout({ logoutParams: { returnTo: `${window.location.origin}/login` } });
-  const getAccessToken = () => getAccessTokenSilently();
+  const getAccessToken = () =>
+    getAccessTokenSilently({
+      authorizationParams: {
+        audience: "https://REDACTED/api/v2/",
+      },
+    });
 
   return (
     <AuthContext.Provider
