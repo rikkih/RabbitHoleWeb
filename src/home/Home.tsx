@@ -3,6 +3,9 @@ import {
   Box,
   Button,
   Container,
+  List,
+  ListItemButton,
+  ListItemText,
   Snackbar,
   TextField,
   Typography,
@@ -10,15 +13,28 @@ import {
 import { useAuth } from "../auth/AuthProvider";
 import UserList from "../user/components/UserList";
 import { useChatService } from "../chat/services/useChatService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { ChatDto } from "../chat/types/ChatDto";
 
 export const Home: React.FC = () => {
   const { user, logout } = useAuth();
-  const { createChat } = useChatService();
+  const { createChat, getUserChats } = useChatService();
 
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [chatTitle, setChatTitle] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
+
+  // New state for chats list
+  const [chats, setChats] = useState<ChatDto[]>([]);
+
+  // Fetch chats on component mount
+  useEffect(() => {
+    const loadChats = async () => {
+      const userChats = await getUserChats();
+      setChats(userChats);
+    };
+    loadChats();
+  }, []);
 
   const handleCreateChat = async () => {
     const chatId = await createChat({
@@ -43,6 +59,21 @@ export const Home: React.FC = () => {
       <Button variant="outlined" onClick={logout} sx={{ mt: 2 }}>
         Log Out
       </Button>
+
+      <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
+        Your Chats
+      </Typography>
+      {chats.length === 0 ? (
+        <Typography>No chats found.</Typography>
+      ) : (
+        <List>
+          {chats.map((chat) => (
+            <ListItemButton key={chat.id} >
+              <ListItemText primary={chat.title} />
+            </ListItemButton>
+          ))}
+        </List>
+      )}
 
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
         User Directory
