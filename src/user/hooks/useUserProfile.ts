@@ -21,6 +21,7 @@ export function useUserProfile() {
       const token = await getAccessToken();
       const res = await fetch("http://localhost:8080/api/profile", {
         headers: { Authorization: `Bearer ${token}` },
+        method: 'PUT',
       });
       if (!res.ok) throw new Error("Profile fetch failed");
 
