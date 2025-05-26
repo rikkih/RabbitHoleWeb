@@ -45,6 +45,8 @@ export const Home: React.FC = () => {
       userIds: selectedUserIds,
     });
     if (chatId) {
+      const userChats = await getUserChats();
+      setChats(userChats);
       setSnackbarMessage("Chat created successfully!");
       setChatTitle("");
       setSelectedUserIds([]);

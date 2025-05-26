@@ -10,33 +10,33 @@ interface CreateChatPayload {
 export const useChatService = () => {
   const { getAccessToken } = useAuth();
 
-  const createChat = async ({
-    title,
-    userIds,
-  }: CreateChatPayload): Promise<string | null> => {
-    try {
-      const token = await getAccessToken();
-      const response = await fetch("http://localhost:8080/api/chats", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, userIds }),
-      });
+  const createChat = useCallback(
+    async ({ title, userIds }: CreateChatPayload): Promise<string | null> => {
+      try {
+        const token = await getAccessToken();
+        const response = await fetch("http://localhost:8080/api/chats", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, userIds }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to create chat");
+        if (!response.ok) {
+          throw new Error("Failed to create chat");
+        }
+
+        return await response.json(); // UUID from backend
+      } catch (error) {
+        console.error("Chat creation error:", error);
+        return null;
       }
+    },
+    [getAccessToken]
+  );
 
-      return await response.json(); // UUID from backend
-    } catch (error) {
-      console.error("Chat creation error:", error);
-      return null;
-    }
-  };
-
-  const getUserChats = async (): Promise<ChatDto[]> => {
+  const getUserChats = useCallback(async (): Promise<ChatDto[]> => {
     try {
       const token = await getAccessToken();
       const response = await fetch("http://localhost:8080/api/chats", {
@@ -52,7 +52,7 @@ export const useChatService = () => {
       console.error(error);
       return [];
     }
-  };
+  }, [getAccessToken]);
 
   const getRecentMessages = useCallback(
     async (chatId: string, page = 0, size = 50) => {
