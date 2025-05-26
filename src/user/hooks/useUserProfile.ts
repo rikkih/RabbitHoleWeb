@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
-import type { UserProfileDto } from "../types";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../auth/useAuth";
+import type { UserProfileDto } from "../types";
 
 export function useUserProfile() {
   const { getAccessToken, isAuthenticated, user } = useAuth();

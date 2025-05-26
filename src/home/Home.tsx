@@ -10,12 +10,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useAuth } from "../auth/useAuth";
-import UserList from "../user/components/UserList";
-import { useChatApi } from "../chat/services/useChatApi";
 import { useEffect, useState } from "react";
-import type { ChatDto } from "../chat/types/ChatDto";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
+import { useChatApi } from "../chat/services/useChatApi";
+import type { ChatDto } from "../chat/types/ChatDto";
+import UserList from "../user/components/UserList";
 
 export const Home: React.FC = () => {
   const { user, logout } = useAuth();

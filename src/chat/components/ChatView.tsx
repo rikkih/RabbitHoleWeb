@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
-import { useChatApi } from "../services/useChatApi";
-import { useEffect, useState } from "react";
 import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useChat } from "../hooks/useChat";
+import { useChatApi } from "../services/useChatApi";
 import type { MessageDto } from "../types/MessageDto";
 
 const ChatView: React.FC = () => {

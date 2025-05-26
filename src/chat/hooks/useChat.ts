@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../../auth/useAuth";
 import {
   createStompClient,
   disconnectStompClient,
   sendStompMessage,
 } from "../sockets/stompClient";
 import type { MessageDto } from "../types/MessageDto";
-import { useAuth } from "../../auth/useAuth";
 
 export function useChat(chatId?: string) {
   const { getAccessToken, user } = useAuth();
