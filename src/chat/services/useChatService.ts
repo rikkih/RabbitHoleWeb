@@ -81,7 +81,7 @@ export const useChatService = () => {
         return { content: [], totalElements: 0, totalPages: 0, number: 0 };
       }
     },
-    []
+    [getAccessToken]
   );
 
   return { createChat, getUserChats, getRecentMessages };

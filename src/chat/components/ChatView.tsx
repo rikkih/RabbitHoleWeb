@@ -3,12 +3,7 @@ import { useChatService } from "../services/useChatService";
 import { useEffect, useState } from "react";
 import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
 import { useChat } from "../useChat";
-
-interface MessageDto {
-  id: string;
-  content: string;
-  sentAt: string;
-}
+import type { MessageDto } from "../types/MessageDto";
 
 const ChatView: React.FC = () => {
   const { chatId } = useParams<{ chatId: string }>();

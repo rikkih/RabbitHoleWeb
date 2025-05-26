@@ -9,7 +9,7 @@ export function createStompClient({
   onMessage,
   onError,
 }: {
-  token: Promise<string | undefined>;
+  token: string | undefined;
   destination: string;
   onMessage: (body: MessageDto) => void;
   onError?: (frame: IFrame) => void;
