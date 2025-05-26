@@ -58,7 +58,7 @@ export const useChatService = () => {
     async (chatId: string, page = 0, size = 50) => {
       const token = await getAccessToken();
       const url = new URL(
-        `/api/chats/${chatId}/messages`,
+        `http://localhost:8080/api/chats/${chatId}/messages`,
         window.location.origin
       );
       url.searchParams.append("page", page.toString());

@@ -9,7 +9,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import type { UserProfile } from "./UserProfile";
+import type { UserProfile } from "../types";
 
 interface Props {
   profile: UserProfile | null;

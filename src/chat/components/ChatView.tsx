@@ -18,7 +18,7 @@ const ChatView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [messageInput, setMessageInput] = useState("");
 
-  const { chatMessages, sendMessage } = useChat(chatId); // <-- hook in use
+  const { chatMessages, sendMessage } = useChat(chatId);
 
   useEffect(() => {
     if (!chatId) return;
@@ -47,9 +47,9 @@ const ChatView: React.FC = () => {
       </Typography>
       <List>
         {allMessages.map((msg) => (
-          <ListItem key={msg.id || msg.timestamp}>
+          <ListItem key={msg.id}>
             <ListItemText
-              primary={msg.content || msg.text}
+              primary={msg.text}
               secondary={new Date(msg.sentAt || msg.timestamp).toLocaleString()}
             />
           </ListItem>
