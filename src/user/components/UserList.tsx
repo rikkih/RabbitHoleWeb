@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useAllUsers } from "../hooks/useAllUsers";
+import { useUserApi } from "../hooks/useUserApi";
 
 const UserList: React.FC<{ onSelect: (ids: string[]) => void }> = ({
   onSelect,
 }) => {
-  const { users, loading, error } = useAllUsers();
+  const { users, loading, error } = useUserApi();
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const toggleUser = (id: string) => {

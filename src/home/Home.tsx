@@ -73,9 +73,6 @@ export const Home: React.FC = () => {
       ) : (
         <List>
           {chats.map((chat) => (
-            // <ListItemButton key={chat.id} >
-            //   <ListItemText primary={chat.title} />
-            // </ListItemButton>
             <ListItemButton
               key={chat.id}
               onClick={() => navigate(`/chats/${chat.id}`)}

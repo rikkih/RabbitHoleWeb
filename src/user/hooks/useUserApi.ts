@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../auth/useAuth";
-import type { UserProfileDto } from "../types";
+import { fetchAllUsers } from "../api/userApi";
+import type { UserProfileDto } from "../types/UserProfileDto";
 
-export function useAllUsers() {
+export function useUserApi() {
   const { getAccessToken } = useAuth();
   const [users, setUsers] = useState<UserProfileDto[]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,22 +14,14 @@ export function useAllUsers() {
       setLoading(true);
       try {
         const token = await getAccessToken();
-        const response = await fetch("http://localhost:8080/api/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`Error fetching users: ${response.statusText}`);
+        if (!token) {
+          throw new Error("No access token available");
         }
-        const data = await response.json();
+
+        const data = await fetchAllUsers(token);
         setUsers(data);
       } catch (e) {
-        if (e instanceof Error) {
-          setError(e.message);
-        } else {
-          setError(String(e));
-        }
+        setError(e instanceof Error ? e.message : String(e));
       } finally {
         setLoading(false);
       }
