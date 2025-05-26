@@ -1,8 +1,8 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserProfileProvider } from "../user/context/UserProfileProvider";
 import { useAuth } from "./useAuth";
-
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     );
   }
 
-  return <>{children}</>;
+  return <UserProfileProvider>{children}</UserProfileProvider>;
 };
 
 export default PrivateRoute;

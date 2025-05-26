@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "../home/Home";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { AuthProvider } from "../auth/AuthProvider";
-import PrivateRoute from "../auth/PrivateRoute";
 import LoginPage from "../auth/Login";
+import PrivateRoute from "../auth/PrivateRoute";
 import ChatView from "../chat/components/ChatView";
+import Home2 from "../home/components/Home2";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <Home />
+                <Home2 />
               </PrivateRoute>
             }
           />
