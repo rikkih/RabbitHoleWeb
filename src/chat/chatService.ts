@@ -5,10 +5,12 @@ let client: Client | null = null;
 
 export function createStompClient({
   token,
+  destination,
   onMessage,
   onError,
 }: {
-  token: string;
+  token: Promise<string | undefined>;
+  destination: string;
   onMessage: (body: Message) => void;
   onError?: (frame: IFrame) => void;
 }) {
@@ -17,7 +19,7 @@ export function createStompClient({
     reconnectDelay: 5000,
     debug: (str) => console.log("STOMP debug:", str),
     onConnect: () => {
-      client?.subscribe("/topic/chat", (msg: IMessage) => {
+      client?.subscribe(destination, (msg: IMessage) => {
         try {
           const body = JSON.parse(msg.body);
           onMessage(body);

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import type { ChatDto } from "../types/ChatDto";
 
@@ -53,35 +54,35 @@ export const useChatService = () => {
     }
   };
 
-  const getRecentMessages = async (chatId: string, page = 0, size = 50) => {
-    const token = await getAccessToken();
-    const url = new URL(
-      `/api/chats/${chatId}/messages`,
-      window.location.origin
-    );
+  const getRecentMessages = useCallback(
+    async (chatId: string, page = 0, size = 50) => {
+      const token = await getAccessToken();
+      const url = new URL(
+        `/api/chats/${chatId}/messages`,
+        window.location.origin
+      );
+      url.searchParams.append("page", page.toString());
+      url.searchParams.append("size", size.toString());
 
-    url.searchParams.append("page", page.toString());
-    url.searchParams.append("size", size.toString());
+      try {
+        const response = await fetch(url.toString(), {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-    try {
-      const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        console.error("Failed to fetch recent messages", error);
+        return { content: [], totalElements: 0, totalPages: 0, number: 0 };
       }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to fetch recent messages", error);
-      return { content: [], totalElements: 0, totalPages: 0, number: 0 };
-    }
-  };
+    },
+    []
+  );
 
   return { createChat, getUserChats, getRecentMessages };
 };

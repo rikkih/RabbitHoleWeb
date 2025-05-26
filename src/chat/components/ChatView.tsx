@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useChatService } from "../services/useChatService";
-import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
+import { useChat } from "../useChat";
 
 interface MessageDto {
   id: string;
@@ -15,6 +16,9 @@ const ChatView: React.FC = () => {
 
   const [messages, setMessages] = useState<MessageDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [messageInput, setMessageInput] = useState("");
+
+  const { chatMessages, sendMessage } = useChat(chatId); // <-- hook in use
 
   useEffect(() => {
     if (!chatId) return;
@@ -24,7 +28,15 @@ const ChatView: React.FC = () => {
       setMessages(page.content);
       setLoading(false);
     });
-  }, [chatId, getRecentMessages]);
+  }, [chatId]);
+
+  const handleSend = () => {
+    if (!messageInput.trim()) return;
+    sendMessage(messageInput);
+    setMessageInput("");
+  };
+
+  const allMessages = [...messages, ...chatMessages];
 
   if (loading) return <Typography>Loading chat messages...</Typography>;
 
@@ -34,15 +46,26 @@ const ChatView: React.FC = () => {
         Chat {chatId}
       </Typography>
       <List>
-        {messages.map((msg) => (
-          <ListItem key={msg.id}>
+        {allMessages.map((msg) => (
+          <ListItem key={msg.id || msg.timestamp}>
             <ListItemText
-              primary={msg.content}
-              secondary={new Date(msg.sentAt).toLocaleString()}
+              primary={msg.content || msg.text}
+              secondary={new Date(msg.sentAt || msg.timestamp).toLocaleString()}
             />
           </ListItem>
         ))}
       </List>
+      <Box mt={2} display="flex" gap={2}>
+        <TextField
+          fullWidth
+          value={messageInput}
+          onChange={(e) => setMessageInput(e.target.value)}
+          label="Type your message"
+        />
+        <Button variant="contained" onClick={handleSend}>
+          Send
+        </Button>
+      </Box>
     </Box>
   );
 };

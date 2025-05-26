@@ -15,6 +15,7 @@ import UserList from "../user/components/UserList";
 import { useChatService } from "../chat/services/useChatService";
 import { useEffect, useState } from "react";
 import type { ChatDto } from "../chat/types/ChatDto";
+import { useNavigate } from "react-router-dom";
 
 export const Home: React.FC = () => {
   const { user, logout } = useAuth();
@@ -26,6 +27,8 @@ export const Home: React.FC = () => {
 
   // New state for chats list
   const [chats, setChats] = useState<ChatDto[]>([]);
+
+  const navigate = useNavigate();
 
   // Fetch chats on component mount
   useEffect(() => {
@@ -68,7 +71,13 @@ export const Home: React.FC = () => {
       ) : (
         <List>
           {chats.map((chat) => (
-            <ListItemButton key={chat.id} >
+            // <ListItemButton key={chat.id} >
+            //   <ListItemText primary={chat.title} />
+            // </ListItemButton>
+            <ListItemButton
+              key={chat.id}
+              onClick={() => navigate(`/chats/${chat.id}`)}
+            >
               <ListItemText primary={chat.title} />
             </ListItemButton>
           ))}

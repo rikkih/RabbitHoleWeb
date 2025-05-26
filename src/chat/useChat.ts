@@ -1,35 +1,38 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useCallback, useEffect, useState } from "react";
 import {
   createStompClient,
   disconnectStompClient,
   sendStompMessage,
 } from "./chatService";
-import type { Message } from "./chat";
+import type { MessageDto } from "./types/MessageDto";
+import { useAuth } from "../auth/AuthProvider";
 
-export function useChat() {
-  const { getAccessTokenSilently, user } = useAuth0();
-  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+export function useChat(chatId?: string) {
+  const { getAccessToken, user } = useAuth();
+  const [chatMessages, setChatMessages] = useState<MessageDto[]>([]);
 
   useEffect(() => {
+    if (!chatId) return;
+
     const connect = async () => {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessToken();
       createStompClient({
         token,
         onMessage: (body) => {
           setChatMessages((prev) => [...prev, body]);
         },
+        destination: `/topic/chat.${chatId}`,
       });
     };
 
     connect();
     return () => disconnectStompClient();
-  }, [getAccessTokenSilently]);
+  }, [getAccessToken, chatId]);
 
   const sendMessage = useCallback(
     (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed) return;
+      if (!trimmed || !chatId) return;
 
       const name = user?.name || "Anonymous";
       const avatarUrl =
@@ -38,16 +41,17 @@ export function useChat() {
           name
         )}`;
 
-      const payload: Message = {
+      const payload: MessageDto = {
+        id: chatId,
         from: name,
         text: trimmed,
         timestamp: new Date().toISOString(),
         avatarUrl,
       };
 
-      sendStompMessage("/api/chat", payload);
+      sendStompMessage(`/api/chat.${chatId}`, payload);
     },
-    [user]
+    [user, chatId]
   );
 
   return {
