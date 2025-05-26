@@ -1,17 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { createContext, useContext, type ReactNode } from "react";
-
-interface AuthContextValue {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
-  login: () => void;
-  logout: () => void;
-  getAccessToken: () => Promise<string | undefined>;
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+import { type ReactNode } from "react";
+import { AuthContext } from "./authContext";
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -50,12 +39,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return ctx;
 };

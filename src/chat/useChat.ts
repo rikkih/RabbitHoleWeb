@@ -5,7 +5,7 @@ import {
   sendStompMessage,
 } from "./chatService";
 import type { MessageDto } from "./types/MessageDto";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../auth/useAuth";
 
 export function useChat(chatId?: string) {
   const { getAccessToken, user } = useAuth();

@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../auth/useAuth";
 import UserList from "../user/components/UserList";
 import { useChatService } from "../chat/services/useChatService";
 import { useEffect, useState } from "react";

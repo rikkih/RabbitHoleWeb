@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useAuth } from "../../auth/AuthProvider";
+import { useAuth } from "../../auth/useAuth";
 import type { ChatDto } from "../types/ChatDto";
 
 interface CreateChatPayload {
