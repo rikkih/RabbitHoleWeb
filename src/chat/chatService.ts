@@ -1,5 +1,5 @@
 import { Client, type IFrame, type IMessage } from "@stomp/stompjs";
-import type { Message } from "./chat";
+import type { MessageDto } from "./types/MessageDto";
 
 let client: Client | null = null;
 
@@ -11,7 +11,7 @@ export function createStompClient({
 }: {
   token: Promise<string | undefined>;
   destination: string;
-  onMessage: (body: Message) => void;
+  onMessage: (body: MessageDto) => void;
   onError?: (frame: IFrame) => void;
 }) {
   client = new Client({
@@ -38,7 +38,7 @@ export function createStompClient({
   client.activate();
 }
 
-export function sendStompMessage(destination: string, body: Message) {
+export function sendStompMessage(destination: string, body: MessageDto) {
   if (client?.connected) {
     client.publish({
       destination,

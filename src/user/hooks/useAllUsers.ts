@@ -23,8 +23,12 @@ export function useAllUsers() {
         }
         const data = await response.json();
         setUsers(data);
-      } catch (e: any) {
-        setError(e.message);
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError(String(e));
+        }
       } finally {
         setLoading(false);
       }

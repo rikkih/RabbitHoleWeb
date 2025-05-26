@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
       setChats(userChats);
     };
     loadChats();
-  }, []);
+  }, [getUserChats]);
 
   const handleCreateChat = async () => {
     const chatId = await createChat({

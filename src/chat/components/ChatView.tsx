@@ -28,7 +28,7 @@ const ChatView: React.FC = () => {
       setMessages(page.content);
       setLoading(false);
     });
-  }, [chatId]);
+  }, [chatId, getRecentMessages]);
 
   const handleSend = () => {
     if (!messageInput.trim()) return;

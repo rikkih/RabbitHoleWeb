@@ -40,7 +40,7 @@ export function useUserProfile() {
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, getAccessToken]);
+  }, [isAuthenticated, getAccessToken, user]);
 
   useEffect(() => {
     fetchProfile();
