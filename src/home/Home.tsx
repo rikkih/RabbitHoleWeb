@@ -12,14 +12,14 @@ import {
 } from "@mui/material";
 import { useAuth } from "../auth/useAuth";
 import UserList from "../user/components/UserList";
-import { useChatService } from "../chat/services/useChatService";
+import { useChatApi } from "../chat/services/useChatApi";
 import { useEffect, useState } from "react";
 import type { ChatDto } from "../chat/types/ChatDto";
 import { useNavigate } from "react-router-dom";
 
 export const Home: React.FC = () => {
   const { user, logout } = useAuth();
-  const { createChat, getUserChats } = useChatService();
+  const { createChat, getUserChats } = useChatApi();
 
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [chatTitle, setChatTitle] = useState("");

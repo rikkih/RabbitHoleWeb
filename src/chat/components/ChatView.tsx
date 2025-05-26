@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
-import { useChatService } from "../services/useChatService";
+import { useChatApi } from "../services/useChatApi";
 import { useEffect, useState } from "react";
 import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
-import { useChat } from "../useChat";
+import { useChat } from "../hooks/useChat";
 import type { MessageDto } from "../types/MessageDto";
 
 const ChatView: React.FC = () => {
   const { chatId } = useParams<{ chatId: string }>();
-  const { getRecentMessages } = useChatService();
+  const { getRecentMessages } = useChatApi();
+  const { chatMessages, sendMessage } = useChat(chatId);
 
   const [messages, setMessages] = useState<MessageDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [messageInput, setMessageInput] = useState("");
 
-  const { chatMessages, sendMessage } = useChat(chatId);
 
   useEffect(() => {
     if (!chatId) return;

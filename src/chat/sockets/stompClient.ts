@@ -1,5 +1,5 @@
 import { Client, type IFrame, type IMessage } from "@stomp/stompjs";
-import type { MessageDto } from "./types/MessageDto";
+import type { MessageDto } from "../types/MessageDto";
 
 let client: Client | null = null;
 
@@ -50,3 +50,4 @@ export function sendStompMessage(destination: string, body: MessageDto) {
 export function disconnectStompClient() {
   client?.deactivate();
 }
+

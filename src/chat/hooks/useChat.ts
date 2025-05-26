@@ -3,9 +3,9 @@ import {
   createStompClient,
   disconnectStompClient,
   sendStompMessage,
-} from "./chatService";
-import type { MessageDto } from "./types/MessageDto";
-import { useAuth } from "../auth/useAuth";
+} from "../sockets/stompClient";
+import type { MessageDto } from "../types/MessageDto";
+import { useAuth } from "../../auth/useAuth";
 
 export function useChat(chatId?: string) {
   const { getAccessToken, user } = useAuth();
