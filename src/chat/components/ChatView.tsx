@@ -1,29 +1,46 @@
-import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useChat } from "../hooks/useChat";
 import { useChatApi } from "../services/useChatApi";
 import type { MessageDto } from "../types/MessageDto";
 
 const ChatView: React.FC = () => {
   const { chatId } = useParams<{ chatId: string }>();
-  const { getRecentMessages } = useChatApi();
+  const { getRecentMessages, getChatTitle } = useChatApi();
   const { chatMessages, sendMessage } = useChat(chatId);
 
+  const [chatTitle, setChatTitle] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [messageInput, setMessageInput] = useState("");
 
+  const location = useLocation();
 
   useEffect(() => {
     if (!chatId) return;
+    if (location.state?.chatTitle) {
+      setChatTitle(location.state.chatTitle);
+    } else {
+      getChatTitle(chatId).then((chatTitle) => {
+        setChatTitle(chatTitle.title);
+      });
+    }
 
     setLoading(true);
     getRecentMessages(chatId).then((page) => {
       setMessages(page.content);
       setLoading(false);
     });
-  }, [chatId, getRecentMessages]);
+  }, [chatId, getRecentMessages, location.state, getChatTitle]);
 
   const handleSend = () => {
     if (!messageInput.trim()) return;
@@ -38,7 +55,7 @@ const ChatView: React.FC = () => {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Chat {chatId}
+        {chatTitle}
       </Typography>
       <List>
         {allMessages.map((msg) => (

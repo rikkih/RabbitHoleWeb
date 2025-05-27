@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAuth } from "../../auth/useAuth";
 import * as chatApi from "../api/chatApi";
 import type { ChatDto } from "../types/ChatDto";
+import type { ChatTitle } from "../types/ChatTitle";
 
 interface CreateChatPayload {
   title: string;
@@ -19,6 +20,14 @@ export const useChatApi = () => {
     [getAccessToken]
   );
 
+  const getChatTitle = useCallback(async (chatId: string): Promise<ChatTitle> => {
+    const token = await getAccessToken();
+    if (!token) {
+      throw new Error("No access token available");
+    }
+    return chatApi.getChatTitle(token, chatId);
+  }, [getAccessToken]);
+
   const getUserChats = useCallback(async (): Promise<ChatDto[]> => {
     const token = await getAccessToken();
     return chatApi.getUserChats(token);
@@ -32,5 +41,5 @@ export const useChatApi = () => {
     [getAccessToken]
   );
 
-  return { createChat, getUserChats, getRecentMessages };
+  return { createChat, getChatTitle, getUserChats, getRecentMessages };
 };

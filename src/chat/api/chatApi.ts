@@ -1,4 +1,5 @@
 import type { ChatDto } from "../types/ChatDto";
+import type { ChatTitle } from "../types/ChatTitle";
 
 interface CreateChatPayload {
   title: string;
@@ -19,6 +20,19 @@ export async function createChat(
   });
 
   if (!response.ok) throw new Error("Failed to create chat");
+  return await response.json();
+}
+
+export async function getChatTitle(token: string, chatId: string): Promise<ChatTitle> {
+  const response = await fetch(`http://localhost:8080/api/chats/${chatId}/title`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to get chat.");
   return await response.json();
 }
 
