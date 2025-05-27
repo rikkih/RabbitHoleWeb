@@ -57,14 +57,6 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        The Rabbit Hole
-      </Typography>
-      <Typography variant="body1">Welcome, {user?.name}</Typography>
-      <Button variant="outlined" onClick={logout} sx={{ mt: 2 }}>
-        Log Out
-      </Button>
-
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
         Your Chats
       </Typography>

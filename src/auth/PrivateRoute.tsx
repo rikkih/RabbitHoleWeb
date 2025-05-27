@@ -1,24 +1,13 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { UserProfileProvider } from "../user/context/UserProfileProvider";
 import { useAuth } from "./useAuth";
 
-interface PrivateRouteProps {
-  children: React.ReactNode;
-}
-
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const PrivateRoute: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
-
-  if (isLoading || (!isAuthenticated && !isLoading)) {
+  if (isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
         <CircularProgress />
@@ -26,7 +15,15 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     );
   }
 
-  return <UserProfileProvider>{children}</UserProfileProvider>;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return (
+    <UserProfileProvider>
+      <Outlet />
+    </UserProfileProvider>
+  );
 };
 
 export default PrivateRoute;
