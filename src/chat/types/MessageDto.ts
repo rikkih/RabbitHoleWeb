@@ -1,6 +1,6 @@
 export interface MessageDto {
     id?: string;
-    from: string;
+    fromId: string;
     text: string;
     sentAt?: string;
     timestamp: string;
