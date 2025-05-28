@@ -47,13 +47,10 @@ export default function MessageBubble({
           variant="caption"
           sx={{ display: "block", textAlign: "right", mt: 0.5 }}
         >
-          {new Date(message.sentAt || message.timestamp).toLocaleTimeString(
-            [],
-            {
-              hour: "2-digit",
-              minute: "2-digit",
-            }
-          )}
+          {new Date(message.sentAt).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </Typography>
       </Box>
 

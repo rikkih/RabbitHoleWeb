@@ -20,13 +20,16 @@ export const useChatApi = () => {
     [getAccessToken]
   );
 
-  const getChatTitle = useCallback(async (chatId: string): Promise<ChatTitle> => {
-    const token = await getAccessToken();
-    if (!token) {
-      throw new Error("No access token available");
-    }
-    return chatApi.getChatTitle(token, chatId);
-  }, [getAccessToken]);
+  const getChatTitle = useCallback(
+    async (chatId: string): Promise<ChatTitle> => {
+      const token = await getAccessToken();
+      if (!token) {
+        throw new Error("No access token available");
+      }
+      return chatApi.getChatTitle(token, chatId);
+    },
+    [getAccessToken]
+  );
 
   const getUserChats = useCallback(async (): Promise<ChatDto[]> => {
     const token = await getAccessToken();
@@ -36,6 +39,9 @@ export const useChatApi = () => {
   const getRecentMessages = useCallback(
     async (chatId: string, page = 0, size = 50) => {
       const token = await getAccessToken();
+      if (!token) {
+        throw new Error("No Access Token available");
+      }
       return chatApi.getRecentMessages(token, chatId, page, size);
     },
     [getAccessToken]

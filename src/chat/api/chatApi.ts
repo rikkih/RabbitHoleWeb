@@ -1,5 +1,7 @@
+import type { Page } from "../../shared/types/Page";
 import type { ChatDto } from "../types/ChatDto";
 import type { ChatTitle } from "../types/ChatTitle";
+import type { MessageDto } from "../types/MessageDto";
 
 interface CreateChatPayload {
   title: string;
@@ -51,11 +53,11 @@ export async function getUserChats(
 }
 
 export async function getRecentMessages(
-  token: string | undefined,
+  token: string,
   chatId: string,
   page = 0,
   size = 50
-) {
+): Promise<Page<MessageDto>> {
   const url = new URL(
     `http://localhost:8080/api/chats/${chatId}/messages`,
     window.location.origin

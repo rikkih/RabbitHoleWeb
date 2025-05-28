@@ -42,10 +42,8 @@ export function useChat(chatId?: string) {
         )}`;
 
       const payload: MessageDto = {
-        id: chatId,
-        from: name,
         text: trimmed,
-        timestamp: new Date().toISOString(),
+        sentAt: new Date().toISOString(),
         avatarUrl,
       };
 
