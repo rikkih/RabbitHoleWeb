@@ -44,7 +44,7 @@ npm run dev
 
 ### Related Projects
 - **Rabbithole Backend** — [github.com/hoderick/rabbithole](https://github.com/rikkih/rabbithole)  
-  Infrastructure as Code and deployment automation.
+  Java Spring Boot backend with WebSockets, API, and backend storage and message brokering.
 
 - **Rabbithole Infrastructure** — [github.com/hoderick/rabbithole-infra](https://github.com/rikkih/RabbitHoleInfra)  
   Infrastructure as Code and deployment automation.
