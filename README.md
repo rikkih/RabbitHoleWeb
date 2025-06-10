@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+# Rabbithole Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![rabbithole-sillhouette.jpg](assets/rabbithole-sillhouette.jpg)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+Rabbithole Frontend is a **React + TypeScript** web application providing a modern UI for the Rabbithole chat backend. It offers:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Secure authentication and protected routes (custom OAuth2/Auth0 integration)  
+- Real-time chat interface with WebSocket support using STOMP over SockJS  
+- Chat management components including message lists, input, and chat titles  
+- User directory and profile features  
+- Modular architecture with hooks, context, and API service layers  
+- Built with Vite for fast development and optimized builds
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>=16 recommended)  
+- npm (comes with Node.js)  
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/hoderick/rabbithole-frontend.git
+cd rabbithole-frontend
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Start the development server on http://localhost:5173:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run dev
 ```
+
+### Related Projects
+- **Rabbithole Backend** — [github.com/hoderick/rabbithole](https://github.com/rikkih/rabbithole)  
+  Infrastructure as Code and deployment automation.
+
+- **Rabbithole Infrastructure** — [github.com/hoderick/rabbithole-infra](https://github.com/rikkih/RabbitHoleInfra)  
+  Infrastructure as Code and deployment automation.
